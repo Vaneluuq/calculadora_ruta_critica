@@ -1,6 +1,6 @@
 # Calculadora de ruta crítica (CPM)
 
-App web de una sola página para resolver diagramas de red (método de la ruta crítica) al instante.
+App web en React (Vite) para resolver diagramas de red (método de la ruta crítica) al instante.
 
 ## Qué hace
 - Introduces cada actividad con su **duración** y sus **predecesoras** (en tabla o como texto).
@@ -27,5 +27,20 @@ C 10 B @1+0.5
 ```
 
 ## Uso
-Abre `index.html` en el navegador, o activa **GitHub Pages** (Settings → Pages → rama `main`, carpeta `/`).
-No requiere instalación ni dependencias.
+Requiere Node.js 20 o superior.
+
+```bash
+npm install
+npm run dev      # servidor de desarrollo en http://localhost:5173
+npm run build    # genera la versión estática en dist/
+npm run preview  # sirve dist/ para probarla
+```
+
+El contenido de `dist/` se puede publicar en cualquier hosting estático (p. ej. GitHub Pages).
+
+## Estructura
+- `src/lib/cpm.js` — cálculo CPM (tiempos, holguras, rutas críticas) y conversión texto ↔ actividades.
+- `src/components/ActivityPanel.jsx` — tabla de entrada y edición como texto.
+- `src/components/NetworkDiagram.jsx` — diagrama de red en SVG.
+- `src/components/Results.jsx` — mensajes, resumen y tabla de tiempos.
+- `src/App.jsx` — estado, guardado en `localStorage` y copia al portapapeles.

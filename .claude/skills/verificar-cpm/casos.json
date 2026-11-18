@@ -1,0 +1,296 @@
+[
+  {
+    "nombre": "Ejemplo de la app (11 actividades)",
+    "texto": "A 3 -\nB 7 A\nC 10 B\nF 9 B\nI 11 B\nD 1 C\nE 4 D\nG 8 C,F\nH 4 G\nJ 6 H,I\nK 3 E,J",
+    "esperado": {
+      "T": 41,
+      "rutas": [
+        [
+          "A",
+          "B",
+          "C",
+          "G",
+          "H",
+          "J",
+          "K"
+        ]
+      ],
+      "nodos": {
+        "A": {
+          "ES": 0,
+          "EF": 3,
+          "LS": 0,
+          "LF": 3,
+          "TF": 0,
+          "FF": 0,
+          "crit": true
+        },
+        "F": {
+          "ES": 10,
+          "EF": 19,
+          "LS": 11,
+          "LF": 20,
+          "TF": 1,
+          "FF": 1,
+          "crit": false
+        },
+        "I": {
+          "ES": 10,
+          "EF": 21,
+          "LS": 21,
+          "LF": 32,
+          "TF": 11,
+          "FF": 11,
+          "crit": false
+        },
+        "D": {
+          "ES": 20,
+          "EF": 21,
+          "LS": 33,
+          "LF": 34,
+          "TF": 13,
+          "FF": 0,
+          "crit": false
+        },
+        "E": {
+          "ES": 21,
+          "EF": 25,
+          "LS": 34,
+          "LF": 38,
+          "TF": 13,
+          "FF": 13,
+          "crit": false
+        },
+        "K": {
+          "ES": 38,
+          "EF": 41,
+          "LS": 38,
+          "LF": 41,
+          "TF": 0,
+          "FF": 0,
+          "crit": true
+        }
+      },
+      "errores": [],
+      "avisos": []
+    }
+  },
+  {
+    "nombre": "Dos rutas críticas en paralelo",
+    "texto": "A 2 -\nB 3 A\nC 3 A\nD 1 B,C",
+    "esperado": {
+      "T": 6,
+      "rutas": [
+        [
+          "A",
+          "B",
+          "D"
+        ],
+        [
+          "A",
+          "C",
+          "D"
+        ]
+      ]
+    }
+  },
+  {
+    "nombre": "Varias actividades iniciales y finales",
+    "texto": "A 4 -\nB 2 -\nC 1 A\nD 5 B",
+    "esperado": {
+      "T": 7,
+      "rutas": [
+        [
+          "B",
+          "D"
+        ]
+      ],
+      "nodos": {
+        "A": {
+          "TF": 2,
+          "FF": 0
+        },
+        "C": {
+          "ES": 4,
+          "EF": 5,
+          "LF": 7,
+          "TF": 2,
+          "FF": 2
+        }
+      }
+    }
+  },
+  {
+    "nombre": "Holgura libre distinta de la total",
+    "texto": "A 3 -\nB 1 -\nC 2 A,B",
+    "esperado": {
+      "T": 5,
+      "nodos": {
+        "B": {
+          "TF": 2,
+          "FF": 2
+        },
+        "A": {
+          "TF": 0,
+          "crit": true
+        }
+      }
+    }
+  },
+  {
+    "nombre": "Productividad 1+0.5 sin redondeo",
+    "texto": "A 4 -\nB 10 A @1+0.5",
+    "esperado": {
+      "T": 10.6667,
+      "nodos": {
+        "B": {
+          "d": 6.6667,
+          "ES": 4
+        }
+      }
+    }
+  },
+  {
+    "nombre": "Productividad 1+50% con redondeo hacia arriba",
+    "texto": "A 4 -\nB 10 A @1+50%",
+    "roundUp": true,
+    "esperado": {
+      "T": 11,
+      "nodos": {
+        "B": {
+          "d": 7
+        }
+      }
+    }
+  },
+  {
+    "nombre": "El redondeo no toca actividades sin productividad",
+    "texto": "A 2,5 -\nB 1 A",
+    "roundUp": true,
+    "esperado": {
+      "T": 3.5,
+      "nodos": {
+        "A": {
+          "d": 2.5
+        }
+      }
+    }
+  },
+  {
+    "nombre": "Coma decimal y predecesoras con coma en modo texto",
+    "texto": "A 2,5 -\nB 1,5 -\nC 2 A,B",
+    "esperado": {
+      "T": 4.5,
+      "rutas": [
+        [
+          "A",
+          "C"
+        ]
+      ],
+      "nodos": {
+        "A": {
+          "d": 2.5
+        },
+        "B": {
+          "d": 1.5,
+          "TF": 1
+        },
+        "C": {
+          "ES": 2.5
+        }
+      },
+      "errores": [],
+      "avisos": []
+    }
+  },
+  {
+    "nombre": "Predecesoras separadas por coma y espacio",
+    "texto": "A 1 -\nB 2 -\nC 3 A, B\nD 1 C;A @2",
+    "esperado": {
+      "T": 5.5,
+      "nodos": {
+        "C": {
+          "ES": 2
+        },
+        "D": {
+          "d": 0.5,
+          "ES": 5
+        }
+      },
+      "errores": [],
+      "avisos": []
+    }
+  },
+  {
+    "nombre": "Formato todo con comas (sin espacios)",
+    "texto": "A,3,-\nB,2,A",
+    "esperado": {
+      "T": 5,
+      "rutas": [
+        [
+          "A",
+          "B"
+        ]
+      ],
+      "errores": [],
+      "avisos": []
+    }
+  },
+  {
+    "nombre": "Dos recursos iguales",
+    "texto": "A 9 - @2",
+    "esperado": {
+      "T": 4.5
+    }
+  },
+  {
+    "nombre": "Ciclo en las dependencias",
+    "texto": "A 1 B\nB 1 A",
+    "esperado": {
+      "sinResultado": true,
+      "errores": [
+        "ciclo"
+      ]
+    }
+  },
+  {
+    "nombre": "Predecesora inexistente (aviso, se ignora)",
+    "texto": "A 2 -\nB 3 A,Z",
+    "esperado": {
+      "T": 5,
+      "avisos": [
+        "predecesora Z no existe"
+      ]
+    }
+  },
+  {
+    "nombre": "Actividad predecesora de sí misma",
+    "texto": "A 2 -\nB 3 B",
+    "esperado": {
+      "T": 3,
+      "errores": [
+        "B no puede ser predecesora de sí misma"
+      ]
+    }
+  },
+  {
+    "nombre": "Actividad repetida",
+    "texto": "A 2 -\nA 3 -",
+    "esperado": {
+      "T": 2,
+      "errores": [
+        "A está repetida"
+      ]
+    }
+  },
+  {
+    "nombre": "Productividad inválida",
+    "texto": "A 2 - @abc",
+    "esperado": {
+      "sinResultado": true,
+      "errores": [
+        "productividad \"abc\" no es válida"
+      ]
+    }
+  }
+]
