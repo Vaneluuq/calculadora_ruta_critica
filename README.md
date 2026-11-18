@@ -36,7 +36,9 @@ npm run build    # genera la versión estática en dist/
 npm run preview  # sirve dist/ para probarla
 ```
 
-El contenido de `dist/` se puede publicar en cualquier hosting estático (p. ej. GitHub Pages).
+## Publicación
+Cada push a `main` ejecuta `.github/workflows/deploy.yml`: verifica los cálculos (`npm run verificar`), compila y publica `dist/` en GitHub Pages.
+Requiere activar una vez **Settings → Pages → Source: GitHub Actions**.
 
 ## Estructura
 - `src/lib/cpm.js` — cálculo CPM (tiempos, holguras, rutas críticas) y conversión texto ↔ actividades.
